@@ -5,7 +5,8 @@ from rest_framework import serializers
 from .models import Student
 
 
-#validators
+
+#validators for ModelSerializer, same as normal Serializer
 def start_with_r(value):
       if value[0].lower()!='r':
         raise serializers.ValidationError("Name doesn't start with R")

@@ -16,6 +16,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator # for class csrf_exempt in class based view
 from django.views import View
 
+
+#***** FUNCTION BASED API VIEW********
+
+
+
+
 # all CRUD code using classbased view
 @method_decorator(csrf_exempt, name='dispatch')
 class StudentApi(View):
@@ -35,6 +41,7 @@ class StudentApi(View):
         return HttpResponse(json_data, content_type='application/json')
 
     def post(self,request,*args,**kwargs):
+
         json_data = request.body # byte streamed json data
         print(json_data)
         stream = io.BytesIO(json_data)
@@ -52,6 +59,7 @@ class StudentApi(View):
         return HttpResponse(json_data, content_type='application/json')
 
     def put(self,request,*args,**kwargs):
+        print(request.data)
         json_data = request.body # byte streamed json data
         stream = io.BytesIO(json_data)
         pythondata = JSONParser().parse(stream)
@@ -62,7 +70,7 @@ class StudentApi(View):
         # serializer = StudentSerializer(stu, data=pythondata)
 
         serializer = StudentSerializer(stu, data=pythondata, partial=True)
-        # if we not updating all he field, then need to mention partial=True otherwise "this field is required" error will be generated
+        # if we not updating all the field, then need to mention partial=True otherwise "this field is required" error will be generated
 
         if serializer.is_valid():
             serializer.save() # will call update method in serializer.py
@@ -86,7 +94,10 @@ class StudentApi(View):
         #return HttpResponse(json_data, content_type='application/json')
         return JsonResponse(res)
 
+# CRUD USING CLASS BASED VIEW ENDS
 
+
+# CRUD USING FUNCTION BASED VIEW STARTS
 # post/put/delete request Operations using function based view
 @csrf_exempt
 def student_create(request):
@@ -159,6 +170,9 @@ def student_api(request):
         serializer = StudentSerializer(stu, many=True)
         json_data = JSONRenderer().render(serializer.data)
         return HttpResponse(json_data, content_type='application/json')
+
+# CRUD USING FUNCTION BASED VIEW ENDS
+
 
 
 # PRACTICE FUNCTIONS
