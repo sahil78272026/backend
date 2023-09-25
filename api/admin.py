@@ -8,6 +8,7 @@ from .models import *
 
 # will return default object name in admin console
 # admin.site.register(Student)
+admin.site.register(Cloth)
 
 # to display fields of models
 @admin.register(Student)

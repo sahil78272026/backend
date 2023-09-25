@@ -9,7 +9,10 @@ import json
 # url = "http://127.0.0.1:8000/stuinfo/"
 # url = "http://127.0.0.1:8000/stucreate/"
 # url = "http://127.0.0.1:8000/studentapi/"
-url = "http://127.0.0.1:8000/studentapicls/"
+# url = "http://127.0.0.1:8000/studentapicls/"
+url = "http://127.0.0.1:8000/classbasedstudent_api_with_view/85"
+url = "http://127.0.0.1:8000/classbasedcloth_api_with_view/"
+
 
 # for post request
 """data = {
@@ -24,21 +27,39 @@ def get_data(id=None):
     data = {}
     if id is not None:
         data = {'id':id}
+    headers={
+        'content-Type':'application/json'
+    }
     json_data = json.dumps(data)
-    r = requests.get(url=url,data=json_data)
+    r = requests.get(url=url, headers=headers, data=json_data)
     print(r.json())
-#get_data(1)
+
+get_data(85)
 
 # post request
 def post_data():
 
     data = {
-    'name':'reeru',
-    'roll': 100,
+    'name':'newEmmp',
+    'roll': 102,
     'city': 'ranchi',}
 
+    # for cloth object
+    data={
+        'brand_name':"Lewis",
+        'fabric': 'cotton',
+        'sku': '01',
+        'fitting_type': 'male',
+        'imported': True,
+        'category_id': 'small'
+    }
+
+    headers={
+        'content-Type':'application/json'
+    }
+
     json_data = json.dumps(data) # converting python dictionary into json
-    r = requests.post(url=url,data=json_data)
+    r = requests.post(url=url, headers=headers, data=json_data)
     print(r.json())
 
 #post_data()
@@ -52,25 +73,33 @@ def update_data():
     'roll': 106,
     'city': 'Delhi',}
 
+    headers={
+        'content-Type':'application/json'
+    }
+
     json_data = json.dumps(data) # converting python dictionary into json
-    r = requests.put(url=url,data=json_data)
+    r = requests.put(url=url, headers=headers, data=json_data)
     print(r.json())
 
-update_data()
+# update_data()
 
 
 # deleting data
-def delete_data():
+def delete_data(id):
 
     data = {
-    'id': 64 }
+    'id': id }
+
+    headers={
+        'content-Type':'application/json'
+    }
 
     json_data = json.dumps(data) # converting python dictionary into json
-    r = requests.delete(url=url,data=json_data)
+    r = requests.delete(url=url, headers=headers, data=json_data)
     print(r.json())
 
 
-#delete_data()
+# delete_data(2)
 
 #print(help(requests.get))
 #print(help(requests.post))
