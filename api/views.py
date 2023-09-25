@@ -37,6 +37,9 @@ from django.views import View
 
 def venue_pdf(request):
     # Create a bytestream buffer
+
+
+
     buf = io.BytesIO()
 
     # create a Canvas
@@ -48,11 +51,22 @@ def venue_pdf(request):
     textob.setFont('Helvetica', 14)  # text font and style
 
     # add some lines of text
-    lines = [
-             'this is line',
-             'this is line 2',
-             'this is line 3'
-             ]
+    # lines = [
+    #          'this is line',
+    #          'this is line 2',
+    #          'this is line 3'
+    #          ]
+
+    venues = Student.objects.all()
+    print(venues)
+
+    lines = []
+    for venue in venues:
+
+        lines.append(venue.name)
+        lines.append(str(venue.roll))
+        lines.append(venue.city)
+        lines.append(' ****** ')
 
     # loop throigh all lines
     for line in lines:
@@ -64,9 +78,10 @@ def venue_pdf(request):
     c.save()
     buf.seek(0)
 
-    # returning file as a response
+    # returning file as a response to the rondend for download
     return FileResponse(buf, as_attachment=True, filename='venue.pdf')
 
+# only crated to add a PDF URL
 def home(request):
     return render(request, 'index.html')
 
