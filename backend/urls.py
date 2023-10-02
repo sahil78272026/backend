@@ -1,6 +1,8 @@
 # import from django
 from django.contrib import admin
 from django.urls import path,include
+from django.conf import settings
+from django.conf.urls.static import static
 
 # Local Import
 from api import views
@@ -29,9 +31,12 @@ urlpatterns = [
     # cloth API View
     path('classbasedcloth_api_with_view/', views.ClassBasedAPIViewClothAPI.as_view()),
     path('classbasedcloth_api_with_view/<int:pk>', views.ClassBasedAPIViewClothAPI.as_view()),
-    path('venue_pdf', views.venue_pdf, name='venue_pdf')
-
+    path('venue_pdf', views.venue_pdf, name='venue_pdf'),
+    path('generate-pdf', views.GenerateInvoice.as_view(), name='generate-pdf'),
+    path('generate_pdf/', views.generate_pdf, name='generate_pdf'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 

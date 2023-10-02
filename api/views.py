@@ -2,16 +2,18 @@
 import io
 
 #pdf creation
-from django.http import FileResponse
-import io # input output
+from django.http import FileResponse, HttpResponse
+from io import BytesIO # input output
+import os
 from reportlab.pdfgen import canvas # will put all the data in canvas and save it as pdf
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
-
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 
 
 # Local Import
-from .models import Student, Cloth
+from .models import Student, Cloth, GeneratedPDF
 from .serializer import StudentSerializer, ClothSerializer
 
 # import from DRF
@@ -36,10 +38,8 @@ from django.views import View
 # PDF File Generation from Models data
 
 def venue_pdf(request):
+
     # Create a bytestream buffer
-
-
-
     buf = io.BytesIO()
 
     # create a Canvas
@@ -57,7 +57,7 @@ def venue_pdf(request):
     #          'this is line 3'
     #          ]
 
-    venues = Student.objects.all()
+    venues = Student.objects.all() # fetching data from database
     print(venues)
 
     lines = []
@@ -70,20 +70,122 @@ def venue_pdf(request):
 
     # loop throigh all lines
     for line in lines:
-        textob.textLine(line)
+        textob.textLine(line)  # adding each line into textobject
 
     # finish up
-    c.drawText(textob)
-    c.showPage()
-    c.save()
+    c.drawText(textob) # drawing text object on canvas
+    c.showPage()#
+    c.save() # saving canvas
+    print('Canvas', c)
     buf.seek(0)
+    print('buf', buf)
 
-    # returning file as a response to the rondend for download
-    return FileResponse(buf, as_attachment=True, filename='venue.pdf')
+    # returning file as a response to the frondend for download
+    return FileResponse(c, as_attachment=True, filename='venue.pdf')
 
 # only crated to add a PDF URL
 def home(request):
     return render(request, 'index.html')
+
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)#, link_callback=fetch_resources)
+
+    # if not pdf.
+    return HttpResponse(result.getvalue(), content_type='application/pdf')
+    # return None
+
+
+
+class GenerateInvoice(View):
+    def get(self, request):
+        try:
+            order_db = Student.objects.get(name="veeru")
+            print("order_db = Student.objects.get(name='veeru')")     #you can filter using order_id as well
+        except Student.DoesNotExist:
+            order_db = None
+            print("order_db = None")
+            return HttpResponse("505 Not Found")
+        data = {
+            'order_name': order_db.name,
+            'transaction_id': order_db.razorpay_payment_id,
+            # 'user_email': order_db.user.email,
+            'date': str(order_db.datetime_of_payment),
+            # 'name': order_db.user.name,
+            'order': order_db,
+            'amount': order_db.total_amount,
+        }
+        pdf = render_to_pdf('invoice.html', data)
+        print("type(pdf)", type(pdf))
+
+        #return HttpResponse(pdf, content_type='application/pdf')
+
+        # force download
+        if pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            print(type(response))
+            filename = "Invoice_%s.pdf" %(data['order_id'])
+            content = "inline; filename='%s'" %(filename)
+            #download = request.GET.get("download")
+            #if download:
+            content = "attachment; filename=%s" %(filename)
+            response['Content-Disposition'] = content
+
+
+            print("return response")
+            return response
+        return HttpResponse("Not found")
+
+
+# New PDF Function
+from io import BytesIO
+from django.core.files.base import ContentFile
+import os
+
+def generate_pdf(request):
+    template_path = 'invoice.html'  # Replace with your HTML template file
+     # Add data context for the template as needed
+
+    try:
+        order_db = Student.objects.get(name="veeru")
+        print("order_db = Student.objects.get(name='veeru')")     #you can filter using order_id as well
+    except Student.DoesNotExist:
+        order_db = None
+        print("order_db = None")
+        return HttpResponse("505 Not Found")
+    context = {
+        'order_name': order_db.name,
+        'transaction_id': order_db.razorpay_payment_id,
+        # 'user_email': order_db.user.email,
+        'date': str(order_db.datetime_of_payment),
+        # 'name': order_db.user.name,
+        'order': order_db,
+        'amount': order_db.total_amount,
+        }
+
+    # Create a temporary file in memory to store the PDF content
+    pdf_data = BytesIO()
+
+    # Create a PDF document
+    template = get_template(template_path)
+    html = template.render(context)
+    pisa.CreatePDF(html, dest=pdf_data)
+
+    # Save the PDF to the database model
+    pdf_file = ContentFile(pdf_data.getvalue())
+    # pdf = GeneratedPDF(title="Generated PDF")
+    order_db.invoice.save("generated_pdf.pdf", pdf_file)
+    print(order_db.invoice.url)
+    order_db.save()
+
+    # Close the temporary PDF file
+    pdf_data.close()
+
+    return HttpResponse('PDF successfully generated and saved to the database.')
+
 
 
 #**** cloth model****

@@ -9,8 +9,11 @@ from .models import *
 # will return default object name in admin console
 # admin.site.register(Student)
 admin.site.register(Cloth)
+admin.site.register(NewUser)
+admin.site.register(GeneratedPDF)
 
 # to display fields of models
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
     list_display = ['id','name','roll','city']
+
