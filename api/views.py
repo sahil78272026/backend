@@ -156,6 +156,7 @@ def generate_pdf(request):
         order_db = None
         print("order_db = None")
         return HttpResponse("505 Not Found")
+    
     context = {
         'order_name': order_db.name,
         'transaction_id': order_db.razorpay_payment_id,
