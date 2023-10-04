@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, AbstractUser, PermissionsMixin
 from django.utils import timezone
 from django.core.validators import RegexValidator
-from multiselectfield import MultiSelectField
+
 
 
 # class Teacher(models.Model):
@@ -68,4 +68,4 @@ class Song(models.Model):
     duration = models.IntegerField()
 
     def __str__(self):
-        return self.name
+        return self.title

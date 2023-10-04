@@ -10,7 +10,9 @@ from .models import *
 # admin.site.register(Student)
 admin.site.register(Cloth)
 admin.site.register(NewUser)
-admin.site.register(GeneratedPDF)
+# admin.site.register(GeneratedPDF)
+admin.site.register(Singer)
+admin.site.register(Song)
 
 # to display fields of models
 @admin.register(Student)

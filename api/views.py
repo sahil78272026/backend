@@ -189,8 +189,13 @@ def generate_pdf(request):
 
 
 # Nested Serializer Test
-class SingerSerializer(viewsets.ModelViewSet):
-    queryset = Singer.objects
+class SingerViewSet(viewsets.ModelViewSet):
+    queryset = Singer.objects.all()
+    serializer_class = SingerSerializer
+
+class SongViewSet(viewsets.ModelViewSet):
+    queryset = Song.objects.all()
+    serializer_class = SongSerializer
 
 
 #**** cloth model****
