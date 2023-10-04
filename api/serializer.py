@@ -2,7 +2,18 @@
 from rest_framework import serializers
 
 # Local Import
-from .models import Student, Cloth
+from .models import *
+
+
+class SongSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Song
+        fields = ['id','title','singer','duration']
+
+class SingerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Singer
+        fields = ['id','name','gender']
 
 
 

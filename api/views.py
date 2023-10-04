@@ -13,8 +13,8 @@ from xhtml2pdf import pisa
 
 
 # Local Import
-from .models import Student, Cloth, GeneratedPDF
-from .serializer import StudentSerializer, ClothSerializer
+from .models import *
+from .serializer import *
 
 # import from DRF
 from rest_framework.renderers import JSONRenderer
@@ -26,6 +26,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView # for mixins
 from rest_framework.mixins import ListModelMixin
 from rest_framework.serializers import *
+from rest_framework import viewsets
 
 # import from django
 from django.shortcuts import render
@@ -36,7 +37,6 @@ from django.views import View
 
 
 # PDF File Generation from Models data
-
 def venue_pdf(request):
 
     # Create a bytestream buffer
@@ -156,7 +156,7 @@ def generate_pdf(request):
         order_db = None
         print("order_db = None")
         return HttpResponse("505 Not Found")
-    
+
     context = {
         'order_name': order_db.name,
         'transaction_id': order_db.razorpay_payment_id,
@@ -187,6 +187,10 @@ def generate_pdf(request):
 
     return HttpResponse('PDF successfully generated and saved to the database.')
 
+
+# Nested Serializer Test
+class SingerSerializer(viewsets.ModelViewSet):
+    queryset = Singer.objects
 
 
 #**** cloth model****

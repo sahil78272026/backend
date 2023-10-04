@@ -54,5 +54,18 @@ class GeneratedPDF(models.Model):
     pdf_file = models.FileField(upload_to='invoice', null=True, blank=True)
 
 
+# For Nested Serializer
+class Singer(models.Model):
+    name = models.CharField(max_length=100)
+    gender = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.name
 
+class Song(models.Model):
+    title = models.CharField(max_length=100)
+    singer = models.ForeignKey(Singer, on_delete=models.CASCADE, related_name='sungby')
+    duration = models.IntegerField()
+
+    def __str__(self):
+        return self.name
