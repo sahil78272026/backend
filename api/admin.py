@@ -10,14 +10,7 @@ from .models import *
 # admin.site.register(Student)
 admin.site.register(Cloth)
 admin.site.register(NewUser)
-<<<<<<< Updated upstream
-# admin.site.register(GeneratedPDF)
-=======
 admin.site.register(GeneratedPDF)
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 admin.site.register(Singer)
 admin.site.register(Song)
 
