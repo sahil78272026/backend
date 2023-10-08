@@ -14,6 +14,9 @@ admin.site.register(NewUser)
 # admin.site.register(GeneratedPDF)
 =======
 admin.site.register(GeneratedPDF)
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 admin.site.register(Singer)
 admin.site.register(Song)
