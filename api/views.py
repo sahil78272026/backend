@@ -196,6 +196,10 @@ class SingerViewSet(viewsets.ModelViewSet):
 class SongViewSet(viewsets.ModelViewSet):
     queryset = Song.objects.all()
     serializer_class = SongSerializer
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
 
 #**** cloth model****
