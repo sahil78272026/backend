@@ -36,6 +36,14 @@ from django.utils.decorators import method_decorator # for class csrf_exempt in 
 from django.views import View
 
 
+#select_related
+def select_rel(request):
+    songs = Song.objects.select_related('singer').all()
+    print(songs)
+    return HttpResponse('ok')
+
+
+
 # PDF File Generation from Models data
 def venue_pdf(request):
 
