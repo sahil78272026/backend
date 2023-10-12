@@ -44,7 +44,7 @@ urlpatterns = [
     path('generate-pdf', views.GenerateInvoice.as_view(), name='generate-pdf'),
     path('generate_pdf/', views.generate_pdf, name='generate_pdf'),
     path('', include(router.urls)),
-    path('select_rel', views.select_rel)
+    path('select_rel/', views.select_rel)
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

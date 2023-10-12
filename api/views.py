@@ -38,8 +38,9 @@ from django.views import View
 
 #select_related
 def select_rel(request):
-    songs = Song.objects.select_related('singer').all()
+    songs = Song.objects.select_related('singer').get(id=1)
     print(songs)
+    print(songs.singer.name)
     return HttpResponse('ok')
 
 
@@ -204,14 +205,6 @@ class SingerViewSet(viewsets.ModelViewSet):
 class SongViewSet(viewsets.ModelViewSet):
     queryset = Song.objects.all()
     serializer_class = SongSerializer
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
-=======
-
->>>>>>> Stashed changes
 
 
 #**** cloth model****
