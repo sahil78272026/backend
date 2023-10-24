@@ -5,6 +5,8 @@ from rest_framework import serializers
 from .models import *
 
 
+
+# Nested Serializer Check
 class SongSerializer(serializers.ModelSerializer):
     class Meta:
         model = Song
@@ -44,7 +46,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ['id','name','roll','city'] # required fields
+        fields = ['id','name','roll','city','email'] # required fields
         # read_only_fields = ['name','roll'] # these fields will be read_only and will not change during update
         # extra_kwargs = {'name':{'read_only':True}} # we can write like this also
 
@@ -70,7 +72,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 '''
-below is the implementation of normal Serializer, in which we have to declare each field correspond to the moded
+below is the implementation of normal Serializer, in which we have to declare each field correspond to the model
 and create and update method for database and validators for validations.
 But in above, Using ModelSerilizer, we don't have to do all these things.
 Same thing we can achieve using ModelSerializer

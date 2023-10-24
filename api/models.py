@@ -39,6 +39,13 @@ class Student(models.Model):
 
     # teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = "student"
+
+
 
 class Cloth(models.Model):
     item_id = models.IntegerField(primary_key=True)

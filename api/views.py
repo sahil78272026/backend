@@ -310,7 +310,9 @@ def student_api_with_view(request, pk=None):
             print("Returning single Result")
             return Response(serializer.data)
         stu = Student.objects.all()
-        print("Returning Multiple Result")
+        stu = Student.objects.filter(name='Sahil', roll=123)  # filter always return a queryset
+        print("Returning Multiple Result", stu)
+        print("SQL Query Property", stu.query) # will show sql query behind the scenes
         serializer = StudentSerializer(stu, many=True) # if more than one object, many=True need to mention
         return Response(serializer.data)
 
