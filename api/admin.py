@@ -13,6 +13,8 @@ admin.site.register(NewUser)
 admin.site.register(GeneratedPDF)
 admin.site.register(Singer)
 admin.site.register(Song)
+admin.site.register(FuelType)
+admin.site.register(CarModel)
 
 # to display fields of models
 @admin.register(Student)

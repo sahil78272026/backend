@@ -93,3 +93,27 @@ class Song(models.Model):
 
 
 
+
+    
+
+class Sale(models.Model):
+    sold_at = models.DateTimeField(
+        auto_now_add=True,db_index=True,
+    )
+    charged_amount = models.PositiveIntegerField()
+
+
+# models for Many-to-Many Relationship check
+class FuelType(models.Model):
+    name = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return self.name
+    
+    
+class CarModel(models.Model):
+    name = models.CharField(max_length=255)
+    fueltype = models.ManyToManyField(FuelType)
+
+    def __str__(self):
+        return self.name

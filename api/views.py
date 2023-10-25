@@ -36,6 +36,22 @@ from django.utils.decorators import method_decorator # for class csrf_exempt in 
 from django.views import View
 
 
+# Many-to-Many Relationship check
+def manyToManyCheck(request):
+    c1 = CarModel.objects.get(name="C200")
+    print(c1)
+    fuelType = FuelType.objects.get(name="Diesel")
+    print(fuelType)
+    c1.fueltype.add(fuelType)
+    print(c1)
+    c1.save()
+    return HttpResponse("ok")
+    
+def manyToManyDbLookup(request):
+    pass
+    
+
+
 #select_related
 def select_rel(request):
     songs = Song.objects.select_related('singer').get(id=1)
