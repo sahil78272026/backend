@@ -14,9 +14,16 @@ class SongSerializer(serializers.ModelSerializer):
 
 class SingerSerializer(serializers.ModelSerializer):
     sungby = SongSerializer(many=True, read_only=True)
+    print("sungby : ", sungby)
     class Meta:
         model = Singer
         fields = ['id','name','gender','sungby']
+
+class MovieSerializer(serializers.ModelSerializer):
+    movie = SongSerializer(many=True, read_only=True)
+    class Meta:
+        model = Movie
+        fields=['id','name','movie']
 
 
 

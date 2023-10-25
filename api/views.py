@@ -207,6 +207,11 @@ class SongViewSet(viewsets.ModelViewSet):
     serializer_class = SongSerializer
 
 
+class MovieViewSet(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+
+
 #**** cloth model****
 class ClassBasedAPIViewClothAPI(APIView):
     def get(self, request, pk=None, format=None):
