@@ -15,7 +15,7 @@ urlpatterns = [
      # Function based View Routers
      path('stucreate/',views.student_create),
 
-          # Class based View Routers
+     # Class based View Routers
      path('studentapicls/', views.StudentApi.as_view()), # for class based request
 
      # function based api_view
@@ -33,5 +33,6 @@ urlpatterns = [
      path('generate-pdf', views.GenerateInvoice.as_view(), name='generate-pdf'),
      path('generate_pdf/', views.generate_pdf, name='generate_pdf'),
      path('', include(router.urls)),
-     path('select_rel/', views.select_rel)
+     path('select_rel/', views.select_rel),
+     path('db_check/', views.db_check)
 ]

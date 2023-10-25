@@ -36,6 +36,25 @@ from django.utils.decorators import method_decorator # for class csrf_exempt in 
 from django.views import View
 
 
+#Multiple database check
+@api_view(('GET',))
+def db_check(request):
+    # stu = Student.objects.all().using('special') # here we are using database with name 'special'. see settings.py
+    # stu = Student.objects.first()
+    # stu = Student.objects.last()
+    # stu = Student.objects.earliest('datetime_of_payment') # need datatime column to find the earliest
+    # stu = Student.objects.in_bulk([91,92]) # need to mention primary key in list and will return dictionary with key as primary key and value as object at provided primary key
+    # print(stu[91].roll)
+    # print(stu[92])
+    stu = Student.objects.in_bulk()# will return all the objects with primary key and key
+    # stu = Student.objects.all()# will return all the objects 
+    print(stu)
+    # Student.objects.get(name='veeru').delete() # single object delete
+    # Student.objects.filter(city='ranchi').delete() # bulk object delete
+    Student.objects.all().delete() # delete all data from db
+    # serializer = StudentSerializer(stu, many=True)
+    return Response("ok")
+
 # Many-to-Many Relationship check
 def manyToManyCheck(request):
     c1 = CarModel.objects.get(name="C200")

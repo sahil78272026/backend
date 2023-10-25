@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
-    'products',
-
 ]
 
 MIDDLEWARE = [
@@ -80,22 +78,34 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
 
 
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'ZAQ!zaq1',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
+    # 'special': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+        
+    # },
 
-"""''default': {
-       #2 New Manual setting for local postgresql , put these values below 'NAME' variable in databases and comment out 'ENGINE' and 'NAME'
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        
+    },
 
-    }"""
+    # 'default': {
+    #    #2 New Manual setting for local postgresql , put these values below 'NAME' variable in databases and comment out 'ENGINE' and 'NAME'
+        
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'postgres',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'ZAQ!zaq1',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+
+    # }
+
+
+}
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
