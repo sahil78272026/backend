@@ -34,5 +34,7 @@ urlpatterns = [
      path('generate_pdf/', views.generate_pdf, name='generate_pdf'),
      path('', include(router.urls)),
      path('select_rel/', views.select_rel),
-     path('db_check/', views.db_check)
+     path('db_check/', views.db_check),
+     path('multiple_json_object/', views.MultilplJsonObject.as_view()),
+
 ]

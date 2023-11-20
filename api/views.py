@@ -36,6 +36,12 @@ from django.utils.decorators import method_decorator # for class csrf_exempt in 
 from django.views import View
 
 
+
+#Signal Test
+
+def singal_test(request):
+    pass
+
 #Multiple database check
 @api_view(('GET',))
 def db_check(request):
@@ -46,13 +52,17 @@ def db_check(request):
     # stu = Student.objects.in_bulk([91,92]) # need to mention primary key in list and will return dictionary with key as primary key and value as object at provided primary key
     # print(stu[91].roll)
     # print(stu[92])
-    stu = Student.objects.in_bulk()# will return all the objects with primary key and key
+    # stu = Student.objects.in_bulk()# will return all the objects with primary key and key
     # stu = Student.objects.all()# will return all the objects 
-    print(stu)
+    # print(stu)
     # Student.objects.get(name='veeru').delete() # single object delete
     # Student.objects.filter(city='ranchi').delete() # bulk object delete
-    Student.objects.all().delete() # delete all data from db
+    # Student.objects.all().delete() # delete all data from db
     # serializer = StudentSerializer(stu, many=True)
+    # s = Student.objects.all().count()
+    s = Student.objects.all().explain()
+    print(s)
+
     return Response("ok")
 
 # Many-to-Many Relationship check
@@ -77,6 +87,19 @@ def select_rel(request):
     print(songs)
     print(songs.singer.name)
     return HttpResponse('ok')
+
+
+from rest_framework import generics
+class MultilplJsonObject(generics.GenericAPIView):
+    def post(self, request):
+        name = request.POST.get('name')
+        gender = request.POST.get('gender')
+        for i in request.data:
+            print(i['name'])
+            print(i['gender'])
+        
+
+        return Response("ok")
 
 
 
