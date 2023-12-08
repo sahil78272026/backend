@@ -22,6 +22,9 @@ from django.core.validators import RegexValidator
 
 # implemented django signals post_save(), see signals.py file and apps.py file
 
+class Recipe(models.Model):
+    name = models.CharField(max_length=100)
+    desc = models.CharField(max_length=200)
 class NewUser(models.Model):
     name  = models.CharField(max_length=40, null=True, blank=True)
     email = models.EmailField(max_length=50, null=True, blank=True)
@@ -96,10 +99,6 @@ class Song(models.Model):
 
 
 
-
-
-    
-
 class Sale(models.Model):
     sold_at = models.DateTimeField(
         auto_now_add=True,db_index=True,
@@ -110,11 +109,11 @@ class Sale(models.Model):
 # models for Many-to-Many Relationship check
 class FuelType(models.Model):
     name = models.CharField(max_length=255)
-    
+
     def __str__(self):
         return self.name
-    
-    
+
+
 class CarModel(models.Model):
     name = models.CharField(max_length=255)
     fueltype = models.ManyToManyField(FuelType)

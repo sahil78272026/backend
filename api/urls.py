@@ -11,9 +11,10 @@ urlpatterns = [
      # Function based View Practice
      path('stuinfo/<int:pk>', views.student_detail),
      path('stuinfo/', views.student_list),
+     path('redis_recipe/', views.home_recipe),
 
      # Function based View Routers
-     path('stucreate/',views.student_create),
+     # path('stucreate/',views.student_create),
 
      # Class based View Routers
      path('studentapicls/', views.StudentApi.as_view()), # for class based request

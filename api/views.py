@@ -25,7 +25,6 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView # for mixins
 from rest_framework.mixins import ListModelMixin
-from rest_framework.serializers import *
 from rest_framework import viewsets
 
 # import from django
@@ -36,9 +35,64 @@ from django.utils.decorators import method_decorator # for class csrf_exempt in 
 from django.views import View
 
 
+# *********CACHING START***************
+# CACHING USING REDIS
+# install redis for windows , 1
+# pip install django-redis , 2
+# set environment variable for caching in settings.py
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
+from .serializer import RecipeSerializer
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+
+def get_recipe(filter_recipe=None):
+    if filter_recipe:
+        print("DATA from DB")
+        recipe = Recipe.objects.filter(name__contains=filter_recipe)
+    else:
+        recipe = Recipe.objects.all()
+
+    return recipe
+
+@api_view(('GET',))
+def home_recipe(request):
+    filter_recipe = request.GET.get('recipe')
+    if cache.get(filter_recipe):
+        print("DATA from CACHE")
+        recipe = cache.get(filter_recipe)
+
+    else:
+        if filter_recipe:
+            recipe = get_recipe(filter_recipe)
+            cache.set(filter_recipe, recipe)
+        else:
+            recipe = get_recipe()
+
+    recipe_serializer = RecipeSerializer(recipe, many=True)
+    return Response(recipe_serializer.data)
+
+@api_view(('GET',))
+def show(request, id):
+    if cache.get(id):
+        print("DATA from CACHE")
+        recipe = cache.get(id)
+    else:
+        print("DATA from DB")
+        recipe = Recipe.objects.get(id=id)
+        cache.set(id, recipe)
+
+    recipe = Recipe.objects.get(id=id)
+
+    recipe_serializer = RecipeSerializer(recipe)
+    return Response(recipe_serializer.data)
+
+
+# *********CACHING ENDS***************
 
 #Signal Test
-
 def singal_test(request):
     pass
 
@@ -53,7 +107,7 @@ def db_check(request):
     # print(stu[91].roll)
     # print(stu[92])
     # stu = Student.objects.in_bulk()# will return all the objects with primary key and key
-    # stu = Student.objects.all()# will return all the objects 
+    # stu = Student.objects.all()# will return all the objects
     # print(stu)
     # Student.objects.get(name='veeru').delete() # single object delete
     # Student.objects.filter(city='ranchi').delete() # bulk object delete
@@ -75,17 +129,17 @@ def manyToManyCheck(request):
     print(c1)
     c1.save()
     return HttpResponse("ok")
-    
+
 def manyToManyDbLookup(request):
     pass
-    
+
 
 
 #select_related
 def select_rel(request):
     songs = Song.objects.select_related('singer').get(id=1)
     print(songs)
-    print(songs.singer.name)
+    print(songs.singer)
     return HttpResponse('ok')
 
 
@@ -97,7 +151,7 @@ class MultilplJsonObject(generics.GenericAPIView):
         for i in request.data:
             print(i['name'])
             print(i['gender'])
-        
+
 
         return Response("ok")
 
@@ -268,6 +322,8 @@ class SongViewSet(viewsets.ModelViewSet):
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
+
+
 
 
 #**** cloth model****

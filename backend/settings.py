@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*b3%%2r3v6*eox77lc9mznzv9#su(m10=wr$em^s0sj3!pac-t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
+    "django_crontab",
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'backend.urls'
+
+CRONJOBS = [
+("*/2 * * * *", "backend.api.cron.my_cron_job")
+]
+
+
 
 TEMPLATES = [
     {
@@ -81,26 +88,26 @@ DATABASES = {
     # 'special': {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3',
-        
+
+    # },
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+
     # },
 
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        
-    },
+       #2 New Manual setting for local postgresql , put these values below 'NAME' variable in databases and comment out 'ENGINE' and 'NAME'
 
-    # 'default': {
-    #    #2 New Manual setting for local postgresql , put these values below 'NAME' variable in databases and comment out 'ENGINE' and 'NAME'
-        
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'postgres',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'ZAQ!zaq1',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'ZAQ!zaq1',
+        'HOST': 'localhost',
+        'PORT': '5432',
 
-    # }
+    }
 
 
 }
@@ -152,3 +159,16 @@ import os
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+# CACHIG Setting
+CACHE_TTL = 60*1500
+CACHES = {
+    "default":{
+        "BACKEND":"django_redis.cache.RedisCache",
+        "LOCATION":"redis://127.0.0.1:6379/1",
+        "OPTIONS":{
+            "CLIENT_CLASS":"django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX":"example"
+    }
+}

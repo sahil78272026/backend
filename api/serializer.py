@@ -7,6 +7,11 @@ from .models import *
 
 
 # Nested Serializer Check
+class RecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        fields = '__all__'
+
 class SongSerializer(serializers.ModelSerializer):
     class Meta:
         model = Song
