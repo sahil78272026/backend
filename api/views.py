@@ -53,6 +53,7 @@ def get_recipe(filter_recipe=None):
         print("DATA from DB")
         recipe = Recipe.objects.filter(name__contains=filter_recipe)
     else:
+        print("DATA from DB")
         recipe = Recipe.objects.all()
 
     return recipe
@@ -91,6 +92,46 @@ def show(request, id):
 
 
 # *********CACHING ENDS***************
+
+from faker import Faker
+@api_view(['GET'])
+def addingDataUsingFaker(request):
+    fake = Faker()
+    for i in range(10):
+        Student.objects.create(name=fake.name(),country=fake.country(), zipcode=fake.zipcode(), city=fake.city())
+    
+    return Response("OK")
+
+def getStudentFromDB(name=None):
+    if name is None:
+        print("Data from DB")
+        student_data = Student.objects.all()
+    else:
+        print("Data from DB")
+        student_data = Student.objects.filter(name__contains=name)
+    
+    return student_data
+
+@api_view(['GET'])
+def getStudent(request):
+    name = request.GET.get('name')
+    if cache.get(name):
+        print("Data from Cache")
+        student_data = cache.get(name)
+    else:
+        if name:
+            student_data = getStudentFromDB(name)
+            cache.set(name, student_data)
+        else:
+            student_data = getStudentFromDB()
+    student_serializer = StudentSerializerForCache(student_data, many=True)
+
+    return Response(student_serializer.data)
+    
+
+
+
+
 
 #Signal Test
 def singal_test(request):

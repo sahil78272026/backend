@@ -37,5 +37,7 @@ urlpatterns = [
      path('select_rel/', views.select_rel),
      path('db_check/', views.db_check),
      path('multiple_json_object/', views.MultilplJsonObject.as_view()),
+     path('addingData/', views.addingDataUsingFaker),
+     path('getStudent/', views.getStudent)
 
 ]

@@ -25,16 +25,18 @@ from django.core.validators import RegexValidator
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
     desc = models.CharField(max_length=200)
+
 class NewUser(models.Model):
     name  = models.CharField(max_length=40, null=True, blank=True)
     email = models.EmailField(max_length=50, null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE,  null=True, blank=True)
 
-
 class Student(models.Model):
-    name = models.CharField(max_length=50)
-    roll = models.IntegerField()
-    city = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, null=True, blank=True)
+    zipcode = models.IntegerField(max_length=50, null=True, blank=True)
+    country = models.CharField(max_length=50, null=True, blank=True)
+    city = models.CharField(max_length=50, null=True, blank=True)
+    roll = models.IntegerField(null=True, blank=True)
     order_id = models.CharField(max_length=50, null=True, blank=True)
     razorpay_payment_id = models.CharField(max_length=50, null=True, blank=True)
     user = models.ForeignKey(NewUser, on_delete=models.CASCADE, null=True, blank=True)

@@ -45,6 +45,11 @@ def start_with_r(value):
         raise serializers.ValidationError("Name doesn't start with R")
 
 
+class StudentSerializerForCache(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = '__all__'
+
 class StudentSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=50)
     #name = serializers.CharField(read_only= True) # we can define fields also,
@@ -58,7 +63,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ['id','name','roll','city','email'] # required fields
+        fields = ['id','name','roll','city','zipcode'] # required fields
         # read_only_fields = ['name','roll'] # these fields will be read_only and will not change during update
         # extra_kwargs = {'name':{'read_only':True}} # we can write like this also
 

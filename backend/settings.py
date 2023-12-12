@@ -91,23 +91,23 @@ DATABASES = {
 
     # },
 
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-
-    # },
-
     'default': {
-       #2 New Manual setting for local postgresql , put these values below 'NAME' variable in databases and comment out 'ENGINE' and 'NAME'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
 
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'ZAQ!zaq1',
-        'HOST': 'localhost',
-        'PORT': '5432',
+    },
 
-    }
+    # 'default': {
+    #    #2 New Manual setting for local postgresql , put these values below 'NAME' variable in databases and comment out 'ENGINE' and 'NAME'
+
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'postgres',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'ZAQ!zaq1',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+
+    # }
 
 
 }
