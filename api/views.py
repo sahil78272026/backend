@@ -28,11 +28,66 @@ from rest_framework.mixins import ListModelMixin
 from rest_framework import viewsets
 
 # import from django
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator # for class csrf_exempt in class based view
 from django.views import View
+
+#***** Cookie and SESSION START***********
+# @api_view(['GET'])
+
+#setting cookies
+def setcookie(request):
+
+    # html = HttpResponse("<h1>Dataflair Django Tutorial</h1>")
+    # html.set_cookie('dataflair', 'Hello this is your Cookies', max_age = None)
+    # return html
+
+
+    html = HttpResponse("Cookies")
+    if request.COOKIES.get('visits'):
+        html.set_cookie('cookie', 'Welcome Back')
+        value = int(request.COOKIES.get('visits'))
+        html.set_cookie('visits', value + 1)
+    else:
+        value = 1
+        text = "Welcome for the first time"
+        html.set_cookie('visits', value)
+        html.set_cookie('cookie', text)
+    return html
+
+# Getting cookies
+def showcookie(request):
+
+    # show = request.COOKIES['dataflair']
+    # html = "<center> New Page <br>{0}</center>".format(show)
+    # return HttpResponse(html)
+
+    if request.COOKIES.get('visits') is not None:
+        value = request.COOKIES.get('visits')
+        text = request.COOKIES.get('cookie')
+        html = HttpResponse("<center><h1>{0}<br>You have requested this page {1} times</h1></center>".format(text, value))
+        html.set_cookie('visits', int(value) + 1)
+        return html
+    else:
+        return redirect('/setcookie')
+    
+# deleting a cookie
+# The delete_cookie() takes in the name of the cookie to be deleted, and this method is associated with the response object.
+def delete_co(request):
+    if request.COOKIES.get('visits'):
+       response = HttpResponse("Cookie deleted")
+       response.delete_cookie("visits")
+    else:
+        response = HttpResponse("You need to create cookie before deleting")
+    return response
+
+    
+
+
+
+#***** Cookie and SESSIONS ENDS************
 
 
 # *********CACHING START***************
@@ -92,8 +147,9 @@ def show(request, id):
 
 
 # *********CACHING ENDS***************
+# *******************Caching Practice Starts
 
-from faker import Faker
+from faker import Faker # to generate fake data for testing
 @api_view(['GET'])
 def addingDataUsingFaker(request):
     fake = Faker()
@@ -128,7 +184,7 @@ def getStudent(request):
 
     return Response(student_serializer.data)
     
-
+# *******************Caching Practice Ends
 
 
 

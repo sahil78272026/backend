@@ -38,6 +38,10 @@ urlpatterns = [
      path('db_check/', views.db_check),
      path('multiple_json_object/', views.MultilplJsonObject.as_view()),
      path('addingData/', views.addingDataUsingFaker),
-     path('getStudent/', views.getStudent)
+     path('getStudent/', views.getStudent),
+     path('setcookie/', views.setcookie),
+     path('showcookie/', views.showcookie),
+     path('delete_co/', views.delete_co),
+
 
 ]

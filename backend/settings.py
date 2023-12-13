@@ -172,3 +172,6 @@ CACHES = {
         "KEY_PREFIX":"example"
     }
 }
+
+# session setting
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
