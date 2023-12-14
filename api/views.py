@@ -1,4 +1,6 @@
 # python import
+import datetime
+from email.policy import default
 import io
 
 #pdf creation
@@ -33,6 +35,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator # for class csrf_exempt in class based view
 from django.views import View
+from django.contrib.sessions.models import Session
 
 #***** Cookie and SESSION START***********
 # @api_view(['GET'])
@@ -84,9 +87,6 @@ def delete_co(request):
     return response
 
     
-
-
-
 #***** Cookie and SESSIONS ENDS************
 
 
@@ -170,6 +170,20 @@ def getStudentFromDB(name=None):
 
 @api_view(['GET'])
 def getStudent(request):
+    request.session.set_test_cookie()
+    if request.session.test_cookie_worked():
+            # request.session.delete_test_cookie()
+            print("test cookie worked and also deleted")
+
+    print(datetime.datetime.now())
+    print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    print("request.session.keys() :", request.session.keys())
+    print("request.session.values() :", request.session.values())
+    print("request.session.get('num_visits', default=None) :", request.session.get('num_visits', default=None))
+    print(request.session.test_cookie_worked())
+
+    print(request.session.session_key)
+    request.session.set_expiry(30)
     name = request.GET.get('name')
     if cache.get(name):
         print("Data from Cache")
@@ -181,6 +195,9 @@ def getStudent(request):
         else:
             student_data = getStudentFromDB()
     student_serializer = StudentSerializerForCache(student_data, many=True)
+    
+
+    # request.session.flush()
 
     return Response(student_serializer.data)
     
