@@ -41,6 +41,10 @@ from django.contrib.sessions.models import Session
 # Raw SQL Queries
 def rawQuery(request):
     stu = Student.objects.raw("select * from student order by name desc")
+    
+    # query with variable
+    name = 'Sahil'
+    stu = Student.objects.raw("select * from student where name=%s", [name])
     for i in stu:
         print(i.name)
         print(i.city)
