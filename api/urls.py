@@ -42,6 +42,7 @@ urlpatterns = [
      path('setcookie/', views.setcookie),
      path('showcookie/', views.showcookie),
      path('delete_co/', views.delete_co),
+     path('raw_query/', views.rawQuery),
 
 
 ]

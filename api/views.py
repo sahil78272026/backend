@@ -37,6 +37,17 @@ from django.utils.decorators import method_decorator # for class csrf_exempt in 
 from django.views import View
 from django.contrib.sessions.models import Session
 
+
+# Raw SQL Queries
+def rawQuery(request):
+    stu = Student.objects.raw("select * from student order by name desc")
+    for i in stu:
+        print(i.name)
+        print(i.city)
+    return HttpResponse('ok')
+
+
+
 #***** Cookie and SESSION START***********
 # @api_view(['GET'])
 
