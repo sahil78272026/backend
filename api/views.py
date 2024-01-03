@@ -59,6 +59,7 @@ def dataInRange(request):
         print(i.datetime_of_payment)
     return Response('OK')
 
+# dummy for git
 
 # Raw SQL Queries
 def rawQuery(request):
