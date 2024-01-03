@@ -43,6 +43,7 @@ urlpatterns = [
      path('showcookie/', views.showcookie),
      path('delete_co/', views.delete_co),
      path('raw_query/', views.rawQuery),
+     path('data_in_range/', views.dataInRange)
 
 
 ]

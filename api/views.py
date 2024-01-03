@@ -38,6 +38,28 @@ from django.views import View
 from django.contrib.sessions.models import Session
 
 
+#get data in range of a date
+from datetime import date
+
+@api_view(['GET','POST'])
+def dataInRange(request):
+    start_date = request.data.get('start_date')
+    end_date = request.data.get('end_date')
+    if start_date is None:
+        start_date = date.today()
+
+    if end_date is None:
+        end_date = date.today()
+
+    print('start_date',  start_date)
+    print('end_date', end_date)
+    data = Student.objects.filter(datetime_of_payment__range=[start_date,end_date])
+    print(data.count())
+    for i in data:
+        print(i.datetime_of_payment)
+    return Response('OK')
+
+
 # Raw SQL Queries
 def rawQuery(request):
     stu = Student.objects.raw("select * from student order by name desc")
