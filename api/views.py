@@ -78,12 +78,12 @@ def rawQuery(request):
 # @api_view(['GET'])
 
 #setting cookies
+@csrf_exempt
 def setcookie(request):
 
     # html = HttpResponse("<h1>Dataflair Django Tutorial</h1>")
     # html.set_cookie('dataflair', 'Hello this is your Cookies', max_age = None)
     # return html
-
 
     html = HttpResponse("Cookies")
     if request.COOKIES.get('visits'):
@@ -112,7 +112,7 @@ def showcookie(request):
         return html
     else:
         return redirect('/setcookie')
-    
+
 # deleting a cookie
 # The delete_cookie() takes in the name of the cookie to be deleted, and this method is associated with the response object.
 def delete_co(request):
@@ -123,7 +123,7 @@ def delete_co(request):
         response = HttpResponse("You need to create cookie before deleting")
     return response
 
-    
+
 #***** Cookie and SESSIONS ENDS************
 
 
@@ -192,7 +192,7 @@ def addingDataUsingFaker(request):
     fake = Faker()
     for i in range(10):
         Student.objects.create(name=fake.name(),country=fake.country(), zipcode=fake.zipcode(), city=fake.city())
-    
+
     return Response("OK")
 
 def getStudentFromDB(name=None):
@@ -202,7 +202,7 @@ def getStudentFromDB(name=None):
     else:
         print("Data from DB")
         student_data = Student.objects.filter(name__contains=name)
-    
+
     return student_data
 
 @api_view(['GET'])
@@ -232,12 +232,12 @@ def getStudent(request):
         else:
             student_data = getStudentFromDB()
     student_serializer = StudentSerializerForCache(student_data, many=True)
-    
+
 
     # request.session.flush()
 
     return Response(student_serializer.data)
-    
+
 # *******************Caching Practice Ends
 
 

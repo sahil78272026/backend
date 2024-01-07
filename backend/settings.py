@@ -91,11 +91,11 @@ DATABASES = {
 
     # },
 
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
 
-    },
+    # },
 
     # 'default': {
     #    #2 New Manual setting for local postgresql , put these values below 'NAME' variable in databases and comment out 'ENGINE' and 'NAME'
@@ -105,6 +105,30 @@ DATABASES = {
     #     'USER': 'postgres',
     #     'PASSWORD': 'ZAQ!zaq1',
     #     'HOST': 'localhost',
+    #     'PORT': '5432',
+
+    # }
+
+    'default': {
+       #2 default setting for db configured in railway.app
+
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': '*Ba5D-df351CC*AE4BDfdBGC2A51gd6g',
+        'HOST': 'viaduct.proxy.rlwy.net',
+        'PORT': '56069',
+
+    }
+
+    # 'default': {
+    #    #2 default setting for db configured in supabase
+
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'postgres',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'Onemennavy@1234',
+    #     'HOST': 'db.flwhxkvikwaeavgvzjtq.supabase.co',
     #     'PORT': '5432',
 
     # }
