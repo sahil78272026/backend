@@ -1,11 +1,9 @@
 # import from django
-from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, AbstractUser, PermissionsMixin
-from django.utils import timezone
-from django.contrib.auth.models import User
+from django.contrib.auth.models import (AbstractBaseUser, AbstractUser,
+                                        PermissionsMixin, User)
 from django.core.validators import RegexValidator
-
-
+from django.db import models
+from django.utils import timezone
 
 # class Teacher(models.Model):
 #     name = models.CharField(max_length=50)

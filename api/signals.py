@@ -1,6 +1,8 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 from .models import *
+
 
 # if a User object is created,  post_save signal will be fired and a NewUser will also be created.
 @receiver(post_save, sender=User)

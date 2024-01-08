@@ -5,7 +5,6 @@ from rest_framework import serializers
 from .models import *
 
 
-
 # Nested Serializer Check
 class RecipeSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,45 +1,47 @@
 # python import
 import datetime
-from email.policy import default
 import io
+#get data in range of a date
+from datetime import date
+from email.policy import default
+from io import BytesIO  # input output
 
+from django.contrib.sessions.models import Session
 #pdf creation
-from django.http import FileResponse, HttpResponse
-from io import BytesIO # input output
-import os
-from reportlab.pdfgen import canvas # will put all the data in canvas and save it as pdf
-from reportlab.lib.units import inch
-from reportlab.lib.pagesizes import letter
+from django.http import FileResponse, HttpResponse, JsonResponse
+# import from django
+from django.shortcuts import redirect, render
 from django.template.loader import get_template
+from django.utils.decorators import \
+    method_decorator  # for class csrf_exempt in class based view
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
+from reportlab.pdfgen import \
+    canvas  # will put all the data in canvas and save it as pdf
+from rest_framework import status, viewsets
+from rest_framework.decorators import api_view
+from rest_framework.generics import GenericAPIView  # for mixins
+from rest_framework.mixins import ListModelMixin
+from rest_framework.parsers import JSONParser
+# import from DRF
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from xhtml2pdf import pisa
-
 
 # Local Import
 from .models import *
 from .serializer import *
 
-# import from DRF
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.views import APIView
-from rest_framework.generics import GenericAPIView # for mixins
-from rest_framework.mixins import ListModelMixin
-from rest_framework import viewsets
+# first commit
 
-# import from django
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator # for class csrf_exempt in class based view
-from django.views import View
-from django.contrib.sessions.models import Session
+# uncommit 
 
 
-#get data in range of a date
-from datetime import date
+
+
 
 @api_view(['GET','POST'])
 def dataInRange(request):
@@ -59,7 +61,6 @@ def dataInRange(request):
         print(i.datetime_of_payment)
     return Response('OK')
 
-# dummy for git
 
 # Raw SQL Queries
 def rawQuery(request):
@@ -134,9 +135,10 @@ def delete_co(request):
 # pip install django-redis , 2
 # set environment variable for caching in settings.py
 from django.conf import settings
+from django.core.cache import cache
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.views.decorators.cache import cache_page
-from django.core.cache import cache
+
 from .serializer import RecipeSerializer
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
@@ -187,7 +189,9 @@ def show(request, id):
 # *********CACHING ENDS***************
 # *******************Caching Practice Starts
 
-from faker import Faker # to generate fake data for testing
+from faker import Faker  # to generate fake data for testing
+
+
 @api_view(['GET'])
 def addingDataUsingFaker(request):
     fake = Faker()
@@ -311,6 +315,8 @@ def select_rel(request):
 
 
 from rest_framework import generics
+
+
 class MultilplJsonObject(generics.GenericAPIView):
     def post(self, request):
         name = request.POST.get('name')
@@ -428,10 +434,12 @@ class GenerateInvoice(View):
         return HttpResponse("Not found")
 
 
+import os
 # New PDF Function
 from io import BytesIO
+
 from django.core.files.base import ContentFile
-import os
+
 
 def generate_pdf(request):
     template_path = 'invoice.html'  # Replace with your HTML template file
