@@ -109,6 +109,30 @@ DATABASES = {
 
     # }
 
+    # 'default': {
+    #    #2 default setting for db configured in railway.app
+
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'railway',
+    #     'USER': 'postgres',
+    #     'PASSWORD': '*Ba5D-df351CC*AE4BDfdBGC2A51gd6g',
+    #     'HOST': 'viaduct.proxy.rlwy.net',
+    #     'PORT': '56069',
+
+    # }
+
+    # 'default': {
+    #    #2 default setting for db configured in supabase
+
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'postgres',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'Onemennavy@1234',
+    #     'HOST': 'db.flwhxkvikwaeavgvzjtq.supabase.co',
+    #     'PORT': '5432',
+
+    # }
+
 
 }
 

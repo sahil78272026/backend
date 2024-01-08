@@ -43,7 +43,9 @@ urlpatterns = [
      path('showcookie/', views.showcookie),
      path('delete_co/', views.delete_co),
      path('raw_query/', views.rawQuery),
-     path('data_in_range/', views.dataInRange)
+     path('data_in_range/', views.dataInRange),
+     path('many_to_many/', views.ManyToManyRelationshipViewSet.as_view({'post':'post','get':'get','put':'put'})),
+
 
 
 ]
