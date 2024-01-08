@@ -279,28 +279,23 @@ def db_check(request):
 class ManyToManyRelationshipViewSet(viewsets.ViewSet):
     # permission_classes = [IsAuthenticated]
     def post(self, request):
-        car_model = request.data.get('car_model')
-        print(car_model)
-        fuel_type = FuelType.objects.get(name='Petrol')
-        carmodel = CarModel.objects.create(name=car_model)
-        carmodel.fueltype.add(fuel_type)
-        # carmodel.save()
-        return Response('car model saved')
+        title = request.data.get('title')
+        headline = request.data.get('headline')
+        p = Publication.objects.create(title=title)
+        a = Article.objects.create(headline=headline)
+        a.publications.add(p)
+        return Response("Publication created")
 
     def get(self, request):
-        fuel_type = FuelType.objects.all()
-        car = CarModel.objects.all()
-        # car = CarModel.objects.all()
-        print('card model', car)
-        print('fuel type', fuel_type)
-        return HttpResponse('ok')
+        a = Article.objects.all()
+        p = Publication.objects.all()
+        print(a)
+        print(p)
+        return Response('ok')
+    
 
     def put(self, request):
-        car_model = request.data.get('car_model')
-        fuel_type = request.data.get('fuel_type')
-        car_model_obj = CarModel.objects.get(name=car_model)
-        car_model_obj.fueltype.add(FuelType.objects.get(name=fuel_type))
-        return Response("car model updated")
+        pass
 
 
 

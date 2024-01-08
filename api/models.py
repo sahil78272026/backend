@@ -107,25 +107,22 @@ class Sale(models.Model):
 
 
 # models for Many-to-Many Relationship check
-class FuelType(models.Model):
-    name = models.CharField(max_length=255, null=True, blank=True)
-
-    def __str__(self):
-        return self.name
+class Publication(models.Model):
+    title = models.CharField(max_length=30)
 
     class Meta:
-        db_table = 'fueltype'
-
-
-
-class CarModel(models.Model):
-    name = models.CharField(max_length=255, null=True, blank=True)
-    fueltype = models.ManyToManyField(FuelType, null=True, blank=True)
+        ordering = ["title"]
 
     def __str__(self):
-        return self.name
+        return self.title
+
+
+class Article(models.Model):
+    headline = models.CharField(max_length=100)
+    publications = models.ManyToManyField(Publication)
 
     class Meta:
-        db_table='carmodel'
+        ordering = ["headline"]
 
-
+    def __str__(self):
+        return self.headline
