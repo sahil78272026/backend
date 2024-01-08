@@ -63,7 +63,7 @@ def dataInRange(request):
 # Raw SQL Queries
 def rawQuery(request):
     stu = Student.objects.raw("select * from student order by name desc")
-    
+
     # query with variable
     name = 'Sahil'
     stu = Student.objects.raw("select * from student where name=%s", [name])
@@ -270,19 +270,34 @@ def db_check(request):
 
     return Response("ok")
 
-# Many-to-Many Relationship check
-def manyToManyCheck(request):
-    c1 = CarModel.objects.get(name="C200")
-    print(c1)
-    fuelType = FuelType.objects.get(name="Diesel")
-    print(fuelType)
-    c1.fueltype.add(fuelType)
-    print(c1)
-    c1.save()
-    return HttpResponse("ok")
+# Many-to-Many Relationship
+class ManyToManyRelationshipViewSet(viewsets.ViewSet):
+    # permission_classes = [IsAuthenticated]
+    def post(self, request):
+        car_model = request.data.get('car_model')
+        print(car_model)
+        fuel_type = FuelType.objects.get(name='Petrol')
+        carmodel = CarModel.objects.create(name=car_model)
+        carmodel.fueltype.add(fuel_type)
+        # carmodel.save()
+        return Response('car model saved')
 
-def manyToManyDbLookup(request):
-    pass
+    def get(self, request):
+        fuel_type = FuelType.objects.all()
+        car = CarModel.objects.all()
+        # car = CarModel.objects.all()
+        print('card model', car)
+        print('fuel type', fuel_type)
+        return HttpResponse('ok')
+
+    def put(self, request):
+        car_model = request.data.get('car_model')
+        fuel_type = request.data.get('fuel_type')
+        car_model_obj = CarModel.objects.get(name=car_model)
+        car_model_obj.fueltype.add(FuelType.objects.get(name=fuel_type))
+        return Response("car model updated")
+
+
 
 
 
