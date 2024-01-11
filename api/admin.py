@@ -16,6 +16,7 @@ admin.site.register(Song)
 admin.site.register(Publication)
 admin.site.register(Article)
 admin.site.register(Recipe)
+admin.site.register(SingalTable)
 
 # to display fields of models
 @admin.register(Student)

@@ -20,6 +20,10 @@ from django.utils import timezone
 
 # implemented django signals post_save(), see signals.py file and apps.py file
 
+class SingalTable(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True)
+
+
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
     desc = models.CharField(max_length=200)

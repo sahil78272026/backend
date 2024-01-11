@@ -298,9 +298,6 @@ class ManyToManyRelationshipViewSet(viewsets.ViewSet):
         pass
 
 
-
-
-
 #select_related
 def select_rel(request):
     songs = Song.objects.select_related('singer').get(id=1)

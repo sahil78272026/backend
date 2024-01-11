@@ -3,12 +3,11 @@ from django.dispatch import receiver
 
 from .models import *
 
-
 # if a User object is created,  post_save signal will be fired and a NewUser will also be created.
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=SingalTable)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        NewUser.objects.create(user=instance)
+        print("singal executed")
 
 # if a User is updated, NewUser instance will also be updated.
 # newuser is used for reverse relationship from User model to newuser model.
