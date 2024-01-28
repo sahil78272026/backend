@@ -1,46 +1,38 @@
-# python import
+# core python import
 import datetime
 import io
-#get data in range of a date
 from datetime import date
 from email.policy import default
-from io import BytesIO  # input output
+from io import BytesIO
 
-from django.contrib.sessions.models import Session
-#pdf creation
-from django.http import FileResponse, HttpResponse, JsonResponse
 # import from django
 from django.shortcuts import redirect, render
 from django.template.loader import get_template
-from django.utils.decorators import \
-    method_decorator  # for class csrf_exempt in class based view
+from django.utils.decorators import method_decorator  # for class csrf_exempt in class based view
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.units import inch
-from reportlab.pdfgen import \
-    canvas  # will put all the data in canvas and save it as pdf
-from rest_framework import status, viewsets
-from rest_framework.decorators import api_view
-from rest_framework.generics import GenericAPIView  # for mixins
-from rest_framework.mixins import ListModelMixin
-from rest_framework.parsers import JSONParser
+from django.contrib.sessions.models import Session
+from django.http import FileResponse, HttpResponse, JsonResponse
+
 # import from DRF
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from xhtml2pdf import pisa
 
+# third party
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
+from reportlab.pdfgen import canvas
+from rest_framework import status, viewsets
+from rest_framework.decorators import api_view
+from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import ListModelMixin
+from rest_framework.parsers import JSONParser
+
 # Local Import
 from .models import *
 from .serializer import *
-
-# first commit
-
-# uncommit 
-
-
-
 
 
 @api_view(['GET','POST'])
@@ -126,6 +118,64 @@ def delete_co(request):
     return response
 
 
+# *******************Session Practice Starts
+
+from faker import Faker  # to generate fake data for testing
+
+
+@api_view(['GET'])
+def addingDataUsingFaker(request):
+    fake = Faker()
+    for i in range(10):
+        Student.objects.create(name=fake.name(),country=fake.country(), zipcode=fake.zipcode(), city=fake.city())
+
+    return Response("OK")
+
+def getStudentFromDB(name=None):
+    if name is None:
+        print("Data from DB")
+        student_data = Student.objects.all()
+    else:
+        print("Data from DB")
+        student_data = Student.objects.filter(name__contains=name)
+
+    return student_data
+
+@api_view(['GET'])
+def getStudent(request):
+    request.session.set_test_cookie()
+    if request.session.test_cookie_worked():
+            # request.session.delete_test_cookie()
+            print("test cookie worked and also deleted")
+
+    print(datetime.datetime.now())
+    print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    print("request.session.keys() :", request.session.keys())
+    print("request.session.values() :", request.session.values())
+    print("request.session.get('num_visits', default=None) :", request.session.get('num_visits', default=None))
+    print(request.session.test_cookie_worked())
+
+    print(request.session.session_key)
+    request.session.set_expiry(30)
+    name = request.GET.get('name')
+    if cache.get(name):
+        print("Data from Cache")
+        student_data = cache.get(name)
+    else:
+        if name:
+            student_data = getStudentFromDB(name)
+            cache.set(name, student_data)
+        else:
+            student_data = getStudentFromDB()
+    student_serializer = StudentSerializerForCache(student_data, many=True)
+
+
+    # request.session.flush()
+
+    return Response(student_serializer.data)
+
+# *******************Session Practice Ends
+
 #***** Cookie and SESSIONS ENDS************
 
 
@@ -187,70 +237,7 @@ def show(request, id):
 
 
 # *********CACHING ENDS***************
-# *******************Caching Practice Starts
 
-from faker import Faker  # to generate fake data for testing
-
-
-@api_view(['GET'])
-def addingDataUsingFaker(request):
-    fake = Faker()
-    for i in range(10):
-        Student.objects.create(name=fake.name(),country=fake.country(), zipcode=fake.zipcode(), city=fake.city())
-
-    return Response("OK")
-
-def getStudentFromDB(name=None):
-    if name is None:
-        print("Data from DB")
-        student_data = Student.objects.all()
-    else:
-        print("Data from DB")
-        student_data = Student.objects.filter(name__contains=name)
-
-    return student_data
-
-@api_view(['GET'])
-def getStudent(request):
-    request.session.set_test_cookie()
-    if request.session.test_cookie_worked():
-            # request.session.delete_test_cookie()
-            print("test cookie worked and also deleted")
-
-    print(datetime.datetime.now())
-    print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    print("request.session.keys() :", request.session.keys())
-    print("request.session.values() :", request.session.values())
-    print("request.session.get('num_visits', default=None) :", request.session.get('num_visits', default=None))
-    print(request.session.test_cookie_worked())
-
-    print(request.session.session_key)
-    request.session.set_expiry(30)
-    name = request.GET.get('name')
-    if cache.get(name):
-        print("Data from Cache")
-        student_data = cache.get(name)
-    else:
-        if name:
-            student_data = getStudentFromDB(name)
-            cache.set(name, student_data)
-        else:
-            student_data = getStudentFromDB()
-    student_serializer = StudentSerializerForCache(student_data, many=True)
-
-
-    # request.session.flush()
-
-    return Response(student_serializer.data)
-
-# *******************Caching Practice Ends
-
-
-
-
-#Signal Test
-def singal_test(request):
-    pass
 
 #Multiple database check
 @api_view(('GET',))
@@ -292,7 +279,7 @@ class ManyToManyRelationshipViewSet(viewsets.ViewSet):
         print(a)
         print(p)
         return Response('ok')
-    
+
 
     def put(self, request):
         pass
