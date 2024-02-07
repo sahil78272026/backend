@@ -186,16 +186,35 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # CACHIG Setting
 CACHE_TTL = 60*1500
+
+# redis based caches
+# CACHES = {
+#     "default":{
+#         "BACKEND":"django_redis.cache.RedisCache",
+#         "LOCATION":"redis://127.0.0.2:6379/1",
+#         "OPTIONS":{
+#             "CLIENT_CLASS":"django_redis.client.DefaultClient"
+#         },
+#         "KEY_PREFIX":"example"
+#     }   
+# }
+
+# file based caches
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+#         "LOCATION": "c:/foo",
+#     }
+# }
+
+# Local-memory caching
 CACHES = {
-    "default":{
-        "BACKEND":"django_redis.cache.RedisCache",
-        "LOCATION":"redis://127.0.0.1:6379/1",
-        "OPTIONS":{
-            "CLIENT_CLASS":"django_redis.client.DefaultClient"
-        },
-        "KEY_PREFIX":"example"
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
     }
 }
+
 
 # session setting
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'

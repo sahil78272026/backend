@@ -5,6 +5,8 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.utils import timezone
 
+import pgeocode
+
 # class Teacher(models.Model):
 #     name = models.CharField(max_length=50)
 
@@ -25,8 +27,8 @@ class SingalTable(models.Model):
 
 
 class Recipe(models.Model):
-    name = models.CharField(max_length=100)
-    desc = models.CharField(max_length=200)
+    name = models.CharField(max_length=100,null=True, blank=True)
+    desc = models.CharField(max_length=200, null=True, blank=True)
 
 class NewUser(models.Model):
     name  = models.CharField(max_length=40, null=True, blank=True)

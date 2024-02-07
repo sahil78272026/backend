@@ -204,23 +204,6 @@ def get_recipe(filter_recipe=None):
     return recipe
 
 @api_view(('GET',))
-def home_recipe(request):
-    filter_recipe = request.GET.get('recipe')
-    if cache.get(filter_recipe):
-        print("DATA from CACHE")
-        recipe = cache.get(filter_recipe)
-
-    else:
-        if filter_recipe:
-            recipe = get_recipe(filter_recipe)
-            cache.set(filter_recipe, recipe)
-        else:
-            recipe = get_recipe()
-
-    recipe_serializer = RecipeSerializer(recipe, many=True)
-    return Response(recipe_serializer.data)
-
-@api_view(('GET',))
 def show(request, id):
     if cache.get(id):
         print("DATA from CACHE")
@@ -234,6 +217,35 @@ def show(request, id):
 
     recipe_serializer = RecipeSerializer(recipe)
     return Response(recipe_serializer.data)
+
+@api_view(('GET','POST'))
+def home_recipe(request):
+    if request.method=='GET':
+        
+        filter_recipe = request.GET.get('recipe')
+        print(filter_recipe)
+        if cache.get(filter_recipe):
+            print("DATA from CACHE")
+            recipe = cache.get(filter_recipe)
+
+        else:
+            if filter_recipe:
+                recipe = get_recipe(filter_recipe)
+                cache.set(filter_recipe, recipe)
+            else:
+                recipe = get_recipe()
+
+        recipe_serializer = RecipeSerializer(recipe, many=True)
+        return Response(recipe_serializer.data)
+    
+    if request.method=='POST':
+        name = request.data.get('name')
+        print(name)
+        desc = request.data.get('desc')
+        print(desc)
+        Recipe.objects.create(name=name, desc=desc)
+        return Response('Recipe added')
+
 
 
 # *********CACHING ENDS***************
