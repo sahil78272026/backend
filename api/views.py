@@ -278,11 +278,14 @@ def db_check(request):
 class ManyToManyRelationshipViewSet(viewsets.ViewSet):
     # permission_classes = [IsAuthenticated]
     def post(self, request):
-        title = request.data.get('title')
+        title1 = request.data.get('title')
+        title2 = request.data.get('title2')
         headline = request.data.get('headline')
-        p = Publication.objects.create(title=title)
+        p1 = Publication.objects.create(title=title1)
+        p2 = Publication.objects.create(title=title2)
         a = Article.objects.create(headline=headline)
-        a.publications.add(p)
+        a.publications.add(p1)
+        a.publications.add(p2)
         return Response("Publication created")
 
     def get(self, request):
