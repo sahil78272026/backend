@@ -185,19 +185,32 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # CACHIG Setting
-CACHE_TTL = 60*1500
+CACHE_TTL = 60*60
 
 # redis based caches
-# CACHES = {
-#     "default":{
-#         "BACKEND":"django_redis.cache.RedisCache",
-#         "LOCATION":"redis://127.0.0.2:6379/1",
-#         "OPTIONS":{
-#             "CLIENT_CLASS":"django_redis.client.DefaultClient"
-#         },
-#         "KEY_PREFIX":"example"
-#     }   
-# }
+CACHES = {
+
+    #Local REDIS CONNECTION SETTING
+    # "default":{
+    #     "BACKEND":"django_redis.cache.RedisCache",
+    #     "LOCATION":"redis://127.0.0.1:6380/1",
+    #     "OPTIONS":{
+    #         "CLIENT_CLASS":"django_redis.client.DefaultClient"
+    #     },
+    #     # "KEY_PREFIX":"example"
+    # },
+
+    #Server REDIS CONNECTION SETTING
+    "default":{
+        "BACKEND":"django_redis.cache.RedisCache",
+        "LOCATION":"redis://redis-16331.c100.us-east-1-4.ec2.cloud.redislabs.com:16331/0",  # redis server caching on cloud
+        "OPTIONS":{
+            "PASSWORD": "A4oFETGxIDeqx6CsXnTbyYekjtxxjKaJ",
+            "CLIENT_CLASS":"django_redis.client.DefaultClient"
+        },
+        # "KEY_PREFIX":"example"
+    }   
+}
 
 # file based caches
 # CACHES = {
@@ -208,12 +221,12 @@ CACHE_TTL = 60*1500
 # }
 
 # Local-memory caching
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "unique-snowflake",
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+#         "LOCATION": "unique-snowflake",
+#     }
+# }
 
 
 # session setting

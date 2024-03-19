@@ -197,6 +197,7 @@ def get_recipe(filter_recipe=None):
     if filter_recipe:
         print("DATA from DB")
         recipe = Recipe.objects.filter(name__contains=filter_recipe)
+        
     else:
         print("DATA from DB")
         recipe = Recipe.objects.all()
@@ -211,7 +212,7 @@ def show(request, id):
     else:
         print("DATA from DB")
         recipe = Recipe.objects.get(id=id)
-        cache.set(id, recipe)
+        cache.set(id, recipe, timeout=3600)
 
     recipe = Recipe.objects.get(id=id)
 
@@ -231,10 +232,10 @@ def home_recipe(request):
         else:
             if filter_recipe:
                 recipe = get_recipe(filter_recipe)
-                cache.set(filter_recipe, recipe)
+                cache.set(filter_recipe, recipe, timeout=3600)
             else:
                 recipe = get_recipe()
-
+        
         recipe_serializer = RecipeSerializer(recipe, many=True)
         return Response(recipe_serializer.data)
     
